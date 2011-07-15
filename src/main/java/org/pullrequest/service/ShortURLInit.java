@@ -3,19 +3,19 @@ package org.pullrequest.service;
 import javax.inject.Named;
 import javax.inject.Inject;
 import org.resthub.core.util.PostInitialize;
-import org.pullrequest.model.Sample;
+import org.pullrequest.model.ShortURL;
 
 @Named("sampleInit")
-public class SampleInit {
+public class ShortURLInit {
     
     @Inject
-    @Named("sampleService")
-    private SampleService sampleService;
+    @Named("shortURLService")
+    private ShortURLService sampleService;
     
     @PostInitialize
     public void init() {
-        Sample s = new Sample();
-        s.setName("testSample");
+        ShortURL s = new ShortURL();
+        s.setShortKey("testSample");
         sampleService.create(s);
     }   
 
