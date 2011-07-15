@@ -1,4 +1,4 @@
-package org.pullrequest.service;
+package org.pullrequest.shorturl.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,8 +8,8 @@ import javax.inject.Named;
 import javax.inject.Inject;
 
 import org.resthub.core.service.GenericServiceImpl;
-import org.pullrequest.dao.ShortURLDao;
-import org.pullrequest.model.ShortURL;
+import org.pullrequest.shorturl.dao.ShortURLDao;
+import org.pullrequest.shorturl.model.ShortURL;
 import org.springframework.util.Assert;
 
 @Named("shortURLService")

@@ -1,10 +1,10 @@
-package org.pullrequest.dao;
+package org.pullrequest.shorturl.dao;
 
 import javax.inject.Named;
 import javax.persistence.Query;
 
 import org.resthub.core.dao.GenericJpaDao;
-import org.pullrequest.model.ShortURL;
+import org.pullrequest.shorturl.model.ShortURL;
 
 @Named("shortURLDao")
 public class JpaShortURLDao extends GenericJpaDao<ShortURL, Long> implements ShortURLDao {

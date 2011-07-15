@@ -1,7 +1,7 @@
-package org.pullrequest.dao;
+package org.pullrequest.shorturl.dao;
 
 import org.resthub.core.dao.GenericDao;
-import org.pullrequest.model.ShortURL;
+import org.pullrequest.shorturl.model.ShortURL;
 
 public interface ShortURLDao extends GenericDao<ShortURL, Long> {
 

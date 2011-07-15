@@ -1,4 +1,4 @@
-package org.pullrequest.model;
+package org.pullrequest.shorturl.model;
 
 import java.io.Serializable;
 import java.net.URL;

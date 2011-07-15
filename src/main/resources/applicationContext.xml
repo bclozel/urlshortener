@@ -7,7 +7,7 @@
     <context:annotation-config/>
     <context:component-scan base-package="org.pullrequest" />
 
-    <resthub:include-entities base-package="org.pullrequest.model" />
-	<resthub:include-jaxb-elements base-package="org.pullrequest.model"/>
+    <resthub:include-entities base-package="org.pullrequest.shorturl.model" />
+	<resthub:include-jaxb-elements base-package="org.pullrequest.shorturl.model"/>
 
 </beans>

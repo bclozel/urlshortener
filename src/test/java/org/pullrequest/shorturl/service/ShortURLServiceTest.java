@@ -1,4 +1,4 @@
-package org.pullrequest.test;
+package org.pullrequest.shorturl.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,8 +11,7 @@ import org.junit.Test;
 import org.slf4j.LoggerFactory;
 
 import org.resthub.core.test.service.AbstractServiceTest;
-import org.pullrequest.model.ShortURL;
-import org.pullrequest.service.ShortURLService;
+import org.pullrequest.shorturl.model.ShortURL;
 import org.slf4j.Logger;
 
 public class ShortURLServiceTest extends AbstractServiceTest<ShortURL, Long, ShortURLService> {

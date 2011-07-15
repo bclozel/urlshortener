@@ -1,8 +1,7 @@
-package org.pullrequest.test;
+package org.pullrequest.shorturl.service;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.pullrequest.service.CodecService;
 
 public class CodecServiceTest {
     

@@ -1,4 +1,4 @@
-package org.pullrequest.service;
+package org.pullrequest.shorturl.service;
 
 /**
  * 

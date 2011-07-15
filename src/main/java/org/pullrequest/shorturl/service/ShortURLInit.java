@@ -1,11 +1,11 @@
-package org.pullrequest.service;
+package org.pullrequest.shorturl.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.inject.Named;
 import javax.inject.Inject;
 import org.resthub.core.util.PostInitialize;
-import org.pullrequest.model.ShortURL;
+import org.pullrequest.shorturl.model.ShortURL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
