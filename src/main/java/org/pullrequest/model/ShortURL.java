@@ -3,11 +3,15 @@ package org.pullrequest.model;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -43,6 +47,9 @@ public class ShortURL implements Serializable {
      * 
      * @return the shortened URL key
      */
+    @Column(unique = true)
+    @Pattern(regexp = "^[0-9a-zA-Z\\-=]*$", message = "this shortURL contains unauthorized chars")
+    @Size(min = 1, max = 6, message = "a shortURL is required")
     public String getShortKey() {
         return shortKey;
     }
@@ -55,6 +62,7 @@ public class ShortURL implements Serializable {
      * 
      * @return the creatiion date of this shortened URL 
      */
+    @NotNull
     @Temporal(TemporalType.DATE)
     public Date getCreationDate() {
         return creationDate;
@@ -68,6 +76,7 @@ public class ShortURL implements Serializable {
      * 
      * @return the URL to be shortened
      */
+    @NotNull
     public URL getUrl() {
         return url;
     }
