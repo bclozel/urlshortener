@@ -1,21 +1,38 @@
 package org.pullrequest.shorturl.controller;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import com.sun.jersey.api.view.ImplicitProduces;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-
-import org.resthub.web.controller.GenericControllerImpl;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.pullrequest.shorturl.model.ShortURL;
-import org.pullrequest.shorturl.service.ShortURLService;
+import org.resthub.web.response.PageResponse;
 
 @Path("/shorturl")
-@Named("shortURLController")
-public class ShortURLController extends GenericControllerImpl<ShortURL, Long, ShortURLService> {
+@ImplicitProduces("text/html;qs=5")
+@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+public interface ShortURLController {
 
-    @Inject
-    @Named("shortURLService")
-    @Override
-    public void setService(ShortURLService service) {
-        this.service = service;
-    }
+    @POST
+    public ShortURL createShortURL(@QueryParam("url") String url,
+            @QueryParam("shortKey") String shortKey);
+
+    @GET
+    @Path("/{shortKey}")
+        public Response finByShortKey(@PathParam("shortKey") String shortKey);
+
+    @DELETE
+    @Path("/{shortKey}")
+    public void delete(@PathParam("shortKey") String shortKey);
+
+    PageResponse<ShortURL> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
+            @QueryParam("size") @DefaultValue("5") Integer size);
 }

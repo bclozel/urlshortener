@@ -15,7 +15,6 @@ import org.springframework.util.Assert;
 @Named("shortURLService")
 public class ShortURLServiceImpl extends GenericServiceImpl<ShortURL, Long, ShortURLDao> implements ShortURLService {
 
-
     @Inject
     @Named("shortURLDao")
     @Override
@@ -24,9 +23,22 @@ public class ShortURLServiceImpl extends GenericServiceImpl<ShortURL, Long, Shor
     }
 
     @Override
-    public ShortURL createShortURL(String url) {
+    public ShortURL createShortURL(String url, String shortKey) {
 
         Assert.hasLength(url, "URL should not be null");
+        
+        if (shortKey != null) {
+
+            Assert.isTrue(shortKey.length() <= CodecService.MAX_LENGTH, "shortKey is too long");
+
+            if (dao.existsWithShortKey(shortKey)) {
+                throw new IllegalArgumentException("a shortened URL already exists with key = " + shortKey);
+            }
+        } else {
+            long uid = CodecService.generateUID();
+            shortKey = CodecService.encode(uid);   
+        }
+
 
         URL parsedURL;
 
@@ -37,43 +49,9 @@ public class ShortURLServiceImpl extends GenericServiceImpl<ShortURL, Long, Shor
             throw new IllegalArgumentException(url + " is not a valid URL", ex);
         }
 
-        long uid = CodecService.generateUID();
-        String shortKey = CodecService.encode(uid);
-
-        while (dao.existsWithShortKey(shortKey)) {
-            uid = CodecService.generateUID();
-            shortKey = CodecService.encode(uid);
-        }
-        
         ShortURL shortURL = new ShortURL(shortKey, parsedURL);
 
         return create(shortURL);
-
-    }
-
-    @Override
-    public ShortURL createShortURL(String url, String shortKey) {
-        
-        Assert.hasLength(url, "URL should not be null");
-        Assert.isTrue(shortKey.length() <= CodecService.MAX_LENGTH,"shortKey is too long");
-
-        URL parsedURL;
-
-        try {
-            parsedURL = new URL(url);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(ShortURLServiceImpl.class.getName()).log(Level.WARNING, null, ex);
-            throw new IllegalArgumentException(url + " is not a valid URL", ex);
-        }
-
-
-        if (dao.existsWithShortKey(shortKey)) {
-            throw new IllegalArgumentException("a shortened URL already exists with key = "+ shortKey);
-        }
-
-        ShortURL shortURL = new ShortURL(shortKey, parsedURL);
-
-        return create(shortURL);       
     }
 
     @Override
@@ -82,6 +60,4 @@ public class ShortURLServiceImpl extends GenericServiceImpl<ShortURL, Long, Shor
 
         return dao.findByShortKey(shortKey);
     }
-
-
 }

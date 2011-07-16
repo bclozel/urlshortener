@@ -62,19 +62,19 @@ public class ShortURLServiceTest extends AbstractServiceTest<ShortURL, Long, Sho
     @Test(expected = IllegalArgumentException.class)
     public void testCreateEmptyURL() {
 
-        service.createShortURL(" ");
+        service.createShortURL(" ", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateInvalidURL() {
 
-        service.createShortURL("invalidURL");
+        service.createShortURL("invalidURL", null);
     }
 
     @Test
     public void testCreateShortURL() {
 
-        ShortURL sURL = service.createShortURL("http://pullrequest.org");
+        ShortURL sURL = service.createShortURL("http://pullrequest.org", null);
 
         Assert.assertNotNull(sURL);
         Assert.assertTrue(sURL.getShortKey().length() > 0);
