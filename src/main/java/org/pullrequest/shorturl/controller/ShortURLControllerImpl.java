@@ -15,8 +15,8 @@ import org.pullrequest.shorturl.service.ShortURLService;
 import org.resthub.web.response.PageResponse;
 import org.synyx.hades.domain.PageRequest;
 
-@Named("shortURLController")
 @Singleton
+@Named("shortURLController")
 public class ShortURLControllerImpl implements ShortURLController {
 
     @Inject
@@ -29,14 +29,22 @@ public class ShortURLControllerImpl implements ShortURLController {
     }
 
     @Override
-    public Response finByShortKey(String shortKey) {
+    public ShortURL findByShortKey(String shortKey) {
 
         ShortURL foundShortURL = this.service.resolveURL(shortKey);
-        URI location = null;
 
         if (foundShortURL == null) {
             throw new NotFoundException();
         }
+
+        return foundShortURL;
+    }
+
+    @Override
+    public Response redirectByShortKey(String shortKey) {
+
+        ShortURL foundShortURL = this.findByShortKey(shortKey);
+        URI location = null;
 
         try {
             location = foundShortURL.getUrl().toURI();
@@ -44,7 +52,7 @@ public class ShortURLControllerImpl implements ShortURLController {
             throw new NotFoundException();
         }
 
-        return Response.temporaryRedirect(location).entity(foundShortURL).build();
+        return Response.status(Response.Status.fromStatusCode(301)).location(location).entity(foundShortURL).build();
     }
 
     @Override
@@ -60,8 +68,7 @@ public class ShortURLControllerImpl implements ShortURLController {
     }
 
     @Override
-    public PageResponse<ShortURL> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
-            @QueryParam("size") @DefaultValue("5") Integer size) {
+    public PageResponse<ShortURL> findAll(Integer page, Integer size) {
         return new PageResponse<ShortURL>(this.service.findAll(new PageRequest(page, size)));
     }
 }

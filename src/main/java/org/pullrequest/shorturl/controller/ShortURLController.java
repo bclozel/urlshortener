@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import org.pullrequest.shorturl.model.ShortURL;
 import org.resthub.web.response.PageResponse;
 
-@Path("/shorturl")
+@Path("/")
 @ImplicitProduces("text/html;qs=5")
 @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -26,13 +26,21 @@ public interface ShortURLController {
             @QueryParam("shortKey") String shortKey);
 
     @GET
+    @Path("/{shortKey}/infos")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public ShortURL findByShortKey(@PathParam("shortKey") String shortKey);
+    
+    @GET
     @Path("/{shortKey}")
-        public Response finByShortKey(@PathParam("shortKey") String shortKey);
+    @Consumes({MediaType.TEXT_HTML, MediaType.TEXT_PLAIN})
+    public Response redirectByShortKey(@PathParam("shortKey") String shortKey);
 
     @DELETE
     @Path("/{shortKey}")
     public void delete(@PathParam("shortKey") String shortKey);
 
-    PageResponse<ShortURL> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
+    @GET
+    public PageResponse<ShortURL> findAll(@QueryParam("page") @DefaultValue("0") Integer page,
             @QueryParam("size") @DefaultValue("5") Integer size);
 }
