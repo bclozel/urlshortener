@@ -1,12 +1,14 @@
-define(['lib/resthub', 'sample/list.js'], function() {
+define(['lib/resthub', 'shorturl/create.js', 'shorturl/infos.js', 'shorturl/list.js'], function() {
         
     // Define routes
     $.route('#', function() {
-        $('#main').html('<span>Home</span>');
+        $('#form').create_shorturl().show();
+        $('#content').html('<span>Loading...</span>').list_shorturl();
     });
             
-    $.route('#/sample', function() {
-        $('#main').list_samples();
+    $.route('#/:shortkey', function(params) {
+        $('#form').hide().html('');
+        $('#content').infos_shorturl({shortkey:params.shortkey});
     });
     
     // Run current route

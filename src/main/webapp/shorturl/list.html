@@ -1,0 +1,5 @@
+<ul>
+{{each(i, shorturl) shorturls}}
+    <li>${shorturl.url} - <a href="/api/${shorturl.shortKey}">${shorturl.shortKey}<a> - <a href="/#/${shorturl.shortKey}">show infos</a></li>
+{{/each}}    
+</ul>
