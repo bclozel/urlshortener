@@ -1,5 +1,18 @@
-<ul>
-{{each(i, shorturl) shorturls}}
-    <li>${shorturl.url} - <a href="/api/${shorturl.shortKey}">${shorturl.shortKey}<a> - <a href="/#/${shorturl.shortKey}">show infos</a></li>
-{{/each}}    
-</ul>
+<div id="shorturl-history">
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Long URL</th>
+                <th scope="col" >Short URL</th>
+                <th scope="col" >Infos</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{each(i, shorturl) shorturls}}
+        <tr><td>${shorturl.url}</td><td><a href="/api/${shorturl.shortKey}">${shorturl.shortKey}</a></td><td><a href="/#/${shorturl.shortKey}">show infos</a></td></tr>
+        {{/each}}   
+        </tbody>
+    </table>
+    <div id="shorturl-toolbar">
+    </div>
+</div>

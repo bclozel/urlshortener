@@ -22,7 +22,8 @@ define(['lib/controller', 'lib/jquery/jquery.validate', 'repositories/shorturl.r
             }).form();
             
             if (validForm) {
-                console.log("create");
+                //$.route('#')
+                ShortUrlRepository.create(function(){console.log("created")},$('input#create-text').val());
             }
         }
     });
