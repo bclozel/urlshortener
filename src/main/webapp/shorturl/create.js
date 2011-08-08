@@ -3,7 +3,8 @@ define(['lib/controller', 'lib/jquery/jquery.validate', 'repositories/shorturl.r
 
     return Controller.extend("CreateShorturlController", {
         template: 'shorturl/create.html',
-	
+        shorturl: {},
+        
         init: function() {
             this._displayCreateForm();
         },
@@ -17,14 +18,12 @@ define(['lib/controller', 'lib/jquery/jquery.validate', 'repositories/shorturl.r
 
         _createShortURL: function() {
 
-            var validForm = $('form#create-form').validate({
-                errorElement: 'span'
-            }).form();
-            
-            if (validForm) {
-                //$.route('#')
-                ShortUrlRepository.create(function(){console.log("created")},$('input#create-text').val());
-            }
+                
+            this.shorturl.url = $('input#create-text').val();
+            ShortUrlRepository.save(function(){
+                console.log("created")
+                },$.toJSON(this.shorturl));
+            $.route('#!');
         }
     });
 });

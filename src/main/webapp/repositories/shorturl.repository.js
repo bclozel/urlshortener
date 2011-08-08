@@ -8,16 +8,10 @@ define([ 'lib/repository' ], function(Repository) {
                 
         createNamed : function(callback, url, shortkey) {
             this._post(this.root, callback, {
-                shortKey:shortkey,
-                url:url
-            });
-        },                
-
-        create : function(callback, url) {
-            this._post(this.root, callback, {
+                'shortKey':shortkey,
                 'url':url
             });
-        }
-                
+        }              
+
     }, {});
 });

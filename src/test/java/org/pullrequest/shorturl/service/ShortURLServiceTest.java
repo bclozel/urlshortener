@@ -30,14 +30,8 @@ public class ShortURLServiceTest extends AbstractServiceTest<ShortURL, Long, Sho
     @Override
     protected ShortURL createTestEntity() {
 
-        ShortURL sURL = null;
-        try {
-            URL url = new URL("http://pullrequest.org");
-            sURL = new ShortURL("key" + serial, url);
-            serial++;
-        } catch (MalformedURLException ex) {
-            logger.error("could not parse url", ex);
-        }
+        ShortURL sURL = new ShortURL("key" + serial, "http://pullrequest.org");
+        serial++;
 
         return sURL;
     }
@@ -46,15 +40,8 @@ public class ShortURLServiceTest extends AbstractServiceTest<ShortURL, Long, Sho
     @Override
     public void setUp() {
         super.setUp();
-
-        ShortURL sURL = null;
-        try {
-            URL url = new URL("http://pullrequest.org");
-            sURL = new ShortURL(uniqueKey, url);
-        } catch (MalformedURLException ex) {
-            logger.error("could not parse url", ex);
-        }
-
+        
+        ShortURL sURL = new ShortURL(uniqueKey, "http://pullrequest.org");
         service.create(sURL);
 
     }
@@ -62,19 +49,19 @@ public class ShortURLServiceTest extends AbstractServiceTest<ShortURL, Long, Sho
     @Test(expected = IllegalArgumentException.class)
     public void testCreateEmptyURL() {
 
-        service.createShortURL(" ", null);
+        service.create(new ShortURL(null, " "));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateInvalidURL() {
 
-        service.createShortURL("invalidURL", null);
+        service.create(new ShortURL(null, "invalidURL"));
     }
 
     @Test
     public void testCreateShortURL() {
 
-        ShortURL sURL = service.createShortURL("http://pullrequest.org", null);
+        ShortURL sURL = service.create(new ShortURL(null, "http://pullrequest.org"));
 
         Assert.assertNotNull(sURL);
         Assert.assertTrue(sURL.getShortKey().length() > 0);
@@ -88,9 +75,7 @@ public class ShortURLServiceTest extends AbstractServiceTest<ShortURL, Long, Sho
     @Test(expected = IllegalArgumentException.class)
     public void testCreateDuplicateShortURL() {
 
-
-        ShortURL aURL = service.createShortURL("http://pullrequest.org", "abcdef");
-        Assert.assertNotNull(service.findById(aURL.getId()));
+        ShortURL sURL = service.create(new ShortURL(uniqueKey, "http://pullrequest.org"));
     }
 
     @Override

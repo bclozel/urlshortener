@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.resthub.core.service.GenericServiceImpl;
 import org.pullrequest.shorturl.dao.ShortURLDao;
 import org.pullrequest.shorturl.model.ShortURL;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 @Named("shortURLService")
@@ -23,9 +24,11 @@ public class ShortURLServiceImpl extends GenericServiceImpl<ShortURL, Long, Shor
     }
 
     @Override
-    public ShortURL createShortURL(String url, String shortKey) {
+    @Transactional(readOnly=false)
+    public ShortURL create(ShortURL shorturl) {
 
-        Assert.hasLength(url, "URL should not be null");
+        Assert.hasLength(shorturl.getUrl().toString(), "URL should not be null");
+        String shortKey = shorturl.getShortKey();
         
         if (shortKey != null) {
 
@@ -36,27 +39,15 @@ public class ShortURLServiceImpl extends GenericServiceImpl<ShortURL, Long, Shor
             }
         } else {
             long uid = CodecService.generateUID();
-            shortKey = CodecService.encode(uid);   
+            shorturl.setShortKey(CodecService.encode(uid));   
         }
 
-
-        URL parsedURL;
-
-        try {
-            parsedURL = new URL(url);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(ShortURLServiceImpl.class.getName()).log(Level.WARNING, null, ex);
-            throw new IllegalArgumentException(url + " is not a valid URL", ex);
-        }
-
-        ShortURL shortURL = new ShortURL(shortKey, parsedURL);
-
-        return create(shortURL);
+        return dao.save(shorturl);
     }
 
     @Override
     public ShortURL resolveURL(String shortKey) {
-        Assert.hasLength(shortKey, "cannot find a empty shortKey");
+        Assert.hasLength(shortKey, "cannot find an empty shortKey");
 
         return dao.findByShortKey(shortKey);
     }

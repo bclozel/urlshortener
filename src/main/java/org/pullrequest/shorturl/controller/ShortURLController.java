@@ -22,8 +22,7 @@ import org.resthub.web.response.PageResponse;
 public interface ShortURLController {
 
     @POST
-    public ShortURL createShortURL(@QueryParam("url") String url,
-            @QueryParam("shortKey") String shortKey);
+    public ShortURL createShortURL(ShortURL shorturl);
 
     @GET
     @Path("/{shortKey}/infos")

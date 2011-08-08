@@ -1,6 +1,7 @@
 package org.pullrequest.shorturl.model;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import javax.persistence.Column;
@@ -25,6 +26,7 @@ public class ShortURL implements Serializable {
 
     public ShortURL() {
         super();
+        this.creationDate = new Date();
     }
 
     public ShortURL(String shortKey, URL url) {
@@ -33,6 +35,12 @@ public class ShortURL implements Serializable {
         this.creationDate = new Date();
     }
 
+    public ShortURL(String shortKey, String url) {
+        this.shortKey = shortKey;
+        this.setUrl(url);
+        this.creationDate = new Date();
+    }
+    
     @Id
     @GeneratedValue
     public Long getId() {
@@ -77,12 +85,18 @@ public class ShortURL implements Serializable {
      * @return the URL to be shortened
      */
     @NotNull
-    public URL getUrl() {
-        return url;
+    public String getUrl() {
+        return url.toString();
     }
 
-    public void setUrl(URL url) {
-        this.url = url;
+
+    public void setUrl(String url) {
+        try {
+            URL parsedURL = new URL(url);
+            this.url = parsedURL;
+        } catch (MalformedURLException ex) {
+            throw new IllegalArgumentException(url+ " is not a valid URL",ex);
+        }
     }
 
     @Override

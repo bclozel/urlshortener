@@ -1,6 +1,10 @@
 define(['lib/resthub', 'shorturl/create.js', 'shorturl/infos.js', 'shorturl/list.js'], function() {
         
     // Define routes
+    $.route('/', function() {
+        $.route('#!');
+    });
+
     $.route('#!', function() {
         $('#form').create_shorturl().show();
         $('#content').html('<span>Loading...</span>').list_shorturl();

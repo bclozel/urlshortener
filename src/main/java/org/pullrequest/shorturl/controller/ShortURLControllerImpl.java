@@ -24,8 +24,8 @@ public class ShortURLControllerImpl implements ShortURLController {
     ShortURLService service;
 
     @Override
-    public ShortURL createShortURL(String url, String shortKey) {
-        return this.service.createShortURL(url, shortKey);
+    public ShortURL createShortURL(ShortURL shorturl) {
+        return this.service.create(shorturl);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ShortURLControllerImpl implements ShortURLController {
         URI location = null;
 
         try {
-            location = foundShortURL.getUrl().toURI();
+            location = new URI(shortKey);
         } catch (URISyntaxException ex) {
             throw new NotFoundException();
         }
