@@ -12,8 +12,8 @@ define(['lib/controller', 'lib/jquery/jquery.validate', 'repositories/shorturl.r
 
             this.render();
 
-            $('input#create-button').unbind();
-            $('input#create-button').bind('click', $.proxy(this._createShortURL, this));
+            $('#create-form').unbind();
+            $('#create-form').bind('submit', $.proxy(this._createShortURL, this));
         },
 
         _createShortURL: function() {
@@ -21,9 +21,10 @@ define(['lib/controller', 'lib/jquery/jquery.validate', 'repositories/shorturl.r
                 
             this.shorturl.url = $('input#create-text').val();
             ShortUrlRepository.save(function(){
-                console.log("created")
+                $.route('#!');
                 },$.toJSON(this.shorturl));
-            $.route('#!');
+            
+            return false;
         }
     });
 });
