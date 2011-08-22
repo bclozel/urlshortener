@@ -3,6 +3,7 @@
 You'd think urlshortener is yet another flavor of URL shortener made with "the coolest framework".
 
 urlshortener is in fact:
+
 * a sample application made with RESThub and RESThub-js (so the "cool framework" part was actually right)
 * an experiment on making a javascript application AJAX-crawlable 
 
